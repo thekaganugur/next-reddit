@@ -35,7 +35,27 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
 
         <footer className="border-t">
-          <div className="container pb-8 pt-6 md:py-8">footer</div>
+          <div className="container pb-8 pt-6 md:py-8">
+            <div>
+              Built by{" "}
+              <Link
+                href="https://www.linkedin.com/in/thekaganugur"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Kagan Ugur
+              </Link>
+              . Source code is available on{" "}
+              <Link
+                href="https://github.com/thekaganugur/next-reddit"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </Link>
+              <span>.</span>
+            </div>
+          </div>
         </footer>
       </body>
     </html>
