@@ -2,10 +2,16 @@
 
 ## Requirements
 
-- [ ] Layout
+- [x] Layout
 
   - [x] Implement Dark Theme
   - [x] Implement layout: header, content, footer
+
+- [x] Techinal setups
+
+  - [ ] Drizzle
+  - [ ] tRPC
+  - [ ] NextAuth
 
 - [ ] User Registration and Authentication:
 
