@@ -39,7 +39,7 @@ export default function RootLayout({
 
           <footer className="border-t">
             <div className="container pb-8 pt-6 md:py-8">
-              <div className="flex items-center">
+              <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
                 <div className="text-left text-sm leading-loose text-muted-foreground">
                   Built by{" "}
                   <Link
