@@ -2,10 +2,10 @@
 
 ## Requirements
 
-- Layout
+- [ ] Layout
 
   - [ ] Implement Dark Theme
-  - [ ] Implement layout: header, content, footer
+  - [x] Implement layout: header, content, footer
 
 - [ ] User Registration and Authentication:
 
