@@ -4,7 +4,7 @@
 
 - [ ] Layout
 
-  - [ ] Implement Dark Theme
+  - [x] Implement Dark Theme
   - [x] Implement layout: header, content, footer
 
 - [ ] User Registration and Authentication:
