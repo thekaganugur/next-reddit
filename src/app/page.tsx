@@ -1,5 +1,6 @@
 import { Shell } from "@/components/shell"
 import { Button } from "@/components/ui/button"
+import "@/lib/env"
 import { Github } from "lucide-react"
 import Link from "next/link"
 
