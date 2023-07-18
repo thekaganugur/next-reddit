@@ -11,7 +11,7 @@
 
   - [ ] Drizzle
   - [ ] tRPC
-  - [ ] NextAuth
+  - [x] NextAuth
 
 - [ ] User Registration and Authentication:
 
