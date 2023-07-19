@@ -61,7 +61,10 @@ export default async function RootLayout({
                           src={session.user?.image ?? ""}
                           alt={session.user?.name ?? ""}
                         />
-                        <AvatarFallback>KK</AvatarFallback>
+                        <AvatarFallback>{`${session.user?.name
+                          ?.split(" ")
+                          .map((word) => word[0])
+                          .join("")}`}</AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
