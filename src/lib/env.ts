@@ -3,6 +3,7 @@ import { z } from "zod"
 export const envScheme = z.object({
   DATABASE_URL: z.string().nonempty(),
 
+  NEXTAUTH_URL: z.string().nonempty(),
   NEXTAUTH_SECRET: z.string().nonempty(),
 
   GOOGLE_ID: z.string().nonempty(),
