@@ -9,10 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { getAuthSession } from "@/lib/auth"
 import { cn } from "@/lib/utils"
 import { LogOutIcon } from "lucide-react"
 import type { Metadata } from "next"
-import { getServerSession } from "next-auth"
 import { Inter } from "next/font/google"
 import Link from "next/link"
 import "./globals.css"
@@ -30,7 +30,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession()
+  const session = await getAuthSession()
 
   return (
     <html className="h-full" lang="en" suppressHydrationWarning>
