@@ -1,6 +1,6 @@
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -92,12 +92,12 @@ export default async function RootLayout({
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Button size="sm" asChild>
-                  <Link href="/api/auth/signin">
-                    Sign In
-                    <span className="sr-only">Sign In</span>
-                  </Link>
-                </Button>
+                <Link
+                  href="/sign-in"
+                  className={buttonVariants({ size: "sm" })}
+                >
+                  Sign In
+                </Link>
               )}
             </div>
           </header>

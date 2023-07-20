@@ -11,6 +11,10 @@ export const authOptions: NextAuthOptions = {
   secret: env.NEXTAUTH_SECRET,
   session: { strategy: "jwt" },
 
+  pages: {
+    signIn: "/sign-in",
+  },
+
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_ID,
