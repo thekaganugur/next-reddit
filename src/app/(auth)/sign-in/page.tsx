@@ -1,14 +1,24 @@
 import { Header } from "@/components/header"
 import { Shell } from "@/components/shell"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import { getAuthSession } from "@/lib/auth"
+import { redirect } from "next/navigation"
+import SignInForm from "./form"
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  const session = await getAuthSession()
+  if (session) redirect("/")
+
   return (
     <Shell>
       <Header title="Sign in" />
-      <Input />
-      <Button>Sign In</Button>
+
+      <Separator className="flex items-center justify-center">
+        <div className="absolute bg-background px-2 text-xs uppercase text-muted-foreground">
+          Or continue with
+        </div>
+      </Separator>
+      <SignInForm />
     </Shell>
   )
 }

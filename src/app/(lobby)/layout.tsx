@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { getAuthSession } from "@/lib/auth"
-import { LogOutIcon } from "lucide-react"
+import { LogOutIcon, User } from "lucide-react"
 import Link from "next/link"
 
 async function SiteHeader() {
@@ -38,22 +38,32 @@ async function SiteHeader() {
                     src={session.user?.image ?? ""}
                     alt={session.user?.name ?? ""}
                   />
-                  <AvatarFallback>{`${session.user?.name
-                    ?.split(" ")
-                    .map((word) => word[0])
-                    .join("")}`}</AvatarFallback>
+                  <AvatarFallback>
+                    {session.user?.name ? (
+                      `${session.user?.name
+                        ?.split(" ")
+                        .map((word) => word[0])
+                        .join("")}`
+                    ) : (
+                      <User className="h-4 w-4" />
+                    )}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">
-                    {session.user?.name}
-                  </p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {session.user?.email}
-                  </p>
+                  {session.user?.name ? (
+                    <p className="text-sm font-medium leading-none">
+                      {session.user?.name}
+                    </p>
+                  ) : null}
+                  {session.user?.email ? (
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {session.user?.email}
+                    </p>
+                  ) : null}
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
