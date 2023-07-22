@@ -1,8 +1,23 @@
 import { Shell } from "@/components/shell"
 import { Button } from "@/components/ui/button"
+import { prisma } from "@/lib/db"
 import "@/lib/env"
 import { Github } from "lucide-react"
 import Link from "next/link"
+import { Suspense } from "react"
+
+async function HighligtedSubReddits() {
+  const subreddits = await prisma.subreddit.findMany({
+    take: 8,
+    orderBy: { createdAt: "desc" },
+  })
+
+  return subreddits.map((subreddit) => (
+    <div key={subreddit.id}>
+      <span>{JSON.stringify(subreddit)}</span>
+    </div>
+  ))
+}
 
 export default function Home() {
   return (
@@ -23,8 +38,22 @@ export default function Home() {
         </h1>
 
         <Button asChild>
-          <Link href="/pokemons">Some button links here</Link>
+          <Link href="/r">Subreddits</Link>
         </Button>
+      </section>
+
+      <section className="space-y-6 py-6 md:pt-10 lg:pt-32">
+        <div className="flex items-center justify-between">
+          <h2 className="scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0 sm:text-3xl">
+            Highligted Comminities
+          </h2>
+          <Button asChild>
+            <Link href="/pokemons">View all</Link>
+          </Button>
+        </div>
+        <Suspense fallback={"Loading...."}>
+          <HighligtedSubReddits />
+        </Suspense>
       </section>
     </Shell>
   )
