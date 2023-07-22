@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { useLoading } from "@/lib/utils"
-import { Github } from "lucide-react"
+import { Github, Loader2 } from "lucide-react"
 import { signIn } from "next-auth/react"
 
 export default function OauthButtons() {
@@ -20,7 +20,7 @@ export default function OauthButtons() {
         }
         disabled={googleLoading || githubLoading}
       >
-        {googleLoading && <span>FOFO</span>}
+        {googleLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         <svg
           aria-hidden="true"
           focusable="false"
@@ -45,7 +45,7 @@ export default function OauthButtons() {
         }
         disabled={googleLoading || githubLoading}
       >
-        {githubLoading && <span>FOFO</span>}
+        {githubLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         <Github className="mr-2 h-4 w-4" />
         <span>Github</span>
       </Button>

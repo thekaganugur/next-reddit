@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useLoading } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2 } from "lucide-react"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -62,7 +63,10 @@ export default function SignInForm() {
             )
           }}
         />
-        <Button disabled={loading}>Sign In</Button>
+        <Button disabled={loading}>
+          {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Sign In
+        </Button>
       </form>
     </Form>
   )

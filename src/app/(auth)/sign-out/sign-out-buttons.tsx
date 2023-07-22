@@ -1,13 +1,14 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useLoading } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useTransition } from "react"
 
 export default function SignOutButtons() {
   const router = useRouter()
-  const [isPending, startTransition] = useTransition()
+  const { loading, loadingHandler } = useLoading()
 
   return (
     <div className="flex w-full items-center space-x-2">
@@ -15,12 +16,13 @@ export default function SignOutButtons() {
         size="sm"
         className="w-full"
         onClick={() =>
-          startTransition(() =>
-            signOut({ callbackUrl: window.location.origin }),
-          )
+          loadingHandler(signOut({ callbackUrl: window.location.origin }), {
+            keepGoing: true,
+          })
         }
-        disabled={isPending}
+        disabled={loading}
       >
+        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Sign Out
       </Button>
       <Button
@@ -28,7 +30,7 @@ export default function SignOutButtons() {
         size="sm"
         className="w-full"
         onClick={router.back}
-        disabled={isPending}
+        disabled={loading}
       >
         Go back
       </Button>
