@@ -20,6 +20,7 @@ export default async function VerifyRequestPage() {
           height={200}
           width={200}
           className="mx-auto h-full object-cover"
+          priority
         />
         <span className="absolute text-xs text-muted-foreground">
           by{" "}
