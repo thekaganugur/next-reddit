@@ -1,18 +1,26 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useLoading } from "@/lib/utils"
 import { Github } from "lucide-react"
 import { signIn } from "next-auth/react"
 
 export default function OauthButtons() {
+  const { loading: googleLoading, loadingHandler: googleLoadingHandler } =
+    useLoading()
+  const { loading: githubLoading, loadingHandler: githubLoadingHandler } =
+    useLoading()
+
   return (
     <div className="flex flex-col justify-center gap-2 sm:flex-row sm:gap-4">
       <Button
         variant="outline"
-        onClick={() => {
-          signIn("google")
-        }}
+        onClick={() =>
+          googleLoadingHandler(signIn("google"), { keepGoing: true })
+        }
+        disabled={googleLoading || githubLoading}
       >
+        {googleLoading && <span>FOFO</span>}
         <svg
           aria-hidden="true"
           focusable="false"
@@ -32,10 +40,12 @@ export default function OauthButtons() {
       </Button>
       <Button
         variant="outline"
-        onClick={() => {
-          signIn("github")
-        }}
+        onClick={() =>
+          githubLoadingHandler(signIn("github"), { keepGoing: true })
+        }
+        disabled={googleLoading || githubLoading}
       >
+        {githubLoading && <span>FOFO</span>}
         <Github className="mr-2 h-4 w-4" />
         <span>Github</span>
       </Button>

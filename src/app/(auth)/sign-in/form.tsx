@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useLoading } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
@@ -25,13 +26,16 @@ const schema = z.object({
 type Inputs = z.infer<typeof schema>
 
 export default function SignInForm() {
+  const { loadingHandler, loading } = useLoading()
   const form = useForm<Inputs>({
     resolver: zodResolver(schema),
   })
 
   async function onSubmit(values: Inputs) {
     try {
-      signIn("email", { email: values.email })
+      loadingHandler(signIn("email", { email: values.email }), {
+        keepGoing: true,
+      })
     } catch {
       toast.error("Something went wrong, please try again later.")
     }
@@ -58,7 +62,7 @@ export default function SignInForm() {
             )
           }}
         />
-        <Button>Sign In</Button>
+        <Button disabled={loading}>Sign In</Button>
       </form>
     </Form>
   )
