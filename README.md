@@ -13,12 +13,12 @@
   - [ ] tRPC
   - [x] NextAuth
 
-- [ ] User Registration and Authentication:
+- [x] User Registration and Authentication:
 
   - [x] Implement user registration functionality.
   - [x] Implement session management or token-based authentication (JWT/OAuth).
-  - [ ] Implement custom login page
-  - [ ] Implement custom register page
+  - [x] Implement custom login page
+  - [x] Implement custom register page
 
 - [ ] Post Management:
 
