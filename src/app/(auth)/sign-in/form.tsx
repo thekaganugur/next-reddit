@@ -31,10 +31,7 @@ export default function SignInForm() {
 
   async function onSubmit(values: Inputs) {
     try {
-      await signIn("email", { email: values.email })
-      toast.message("Check your email", {
-        description: "A sign in link has been sent to your email address.",
-      })
+      signIn("email", { email: values.email })
     } catch {
       toast.error("Something went wrong, please try again later.")
     }

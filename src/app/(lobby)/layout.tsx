@@ -68,7 +68,7 @@ async function SiteHeader() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/api/auth/signout">
+                <Link href="/sign-out">
                   <LogOutIcon className="mr-2 h-4 w-4" aria-hidden="true" />
                   Log out
                 </Link>
