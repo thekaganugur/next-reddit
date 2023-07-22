@@ -16,15 +16,16 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           alt="Nice looking patter"
           fill
           className="h-full object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
         />
 
         <Link href="/" className="absolute top-6 ">
-          <Logo />
+          <Logo className="text-black" />
         </Link>
       </div>
 
-      <main className="self-center">{children}</main>
+      <main className="max-w-lg flex-1 self-center">{children}</main>
     </div>
   )
 }
