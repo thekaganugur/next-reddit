@@ -100,7 +100,9 @@ async function HighligtedPosts() {
         ({ id, title, subreddit, content, votes, author, comments }) => (
           <Card key={id}>
             <CardHeader>
-              <CardTitle>{title}</CardTitle>
+              <Link href={`/r/${subreddit.name}/post/${id}`}>
+                <CardTitle>{title}</CardTitle>
+              </Link>
               <Link href={`/r/${subreddit.name}`}>
                 <CardTitle>r/{subreddit.name}</CardTitle>
               </Link>

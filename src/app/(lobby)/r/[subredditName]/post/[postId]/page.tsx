@@ -1,11 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Header } from "@/components/header"
+import { Shell } from "@/components/shell"
 import { prisma } from "@/lib/db"
 import Link from "next/link"
 
@@ -24,21 +18,16 @@ export default async function SubRedditPage({ params }: Props) {
   if (!post) return null
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{post.title}</CardTitle>
-        <Link href={`/r/${post.subreddit.name}`}>
-          <CardTitle>r/{post.subreddit.name}</CardTitle>
-        </Link>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-2">
-        <CardDescription>{post.content}</CardDescription>
-      </CardContent>
-      <CardFooter>
+    <Shell>
+      <Header title={post.title} />
+      <Link href={`/r/${post.subreddit.name}`}>r/{post.subreddit.name}</Link>
+
+      <div>{post.content}</div>
+      <div>
         <div>votes: {post.votes.length}</div>
         <div>author {post.author.email}</div>
         <div>comments {post.comments.length}</div>
-      </CardFooter>
-    </Card>
+      </div>
+    </Shell>
   )
 }

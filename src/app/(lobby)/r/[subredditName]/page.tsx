@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { prisma } from "@/lib/db"
+import Link from "next/link"
 
 type Props = {
   params: {
@@ -43,7 +44,9 @@ export default async function SubRedditPage({ params }: Props) {
         ({ id, title, content, votes, author, comments }) => (
           <Card key={id}>
             <CardHeader>
-              <CardTitle>{title}</CardTitle>
+              <Link href={`/r/${subreddit.name}/post/${id}`}>
+                <CardTitle>{title}</CardTitle>
+              </Link>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <CardDescription>{JSON.stringify(content)}</CardDescription>
