@@ -19,6 +19,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
         />
+        <div className="absolute inset-0 bg-gradient-to-b bg-gradient-to-r from-gray-900 to-gray-600 opacity-10 dark:opacity-30"></div>
 
         <Link href="/" className="absolute top-6 ">
           <Logo className="text-black" />

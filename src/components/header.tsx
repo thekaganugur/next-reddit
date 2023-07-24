@@ -18,7 +18,7 @@ export function Header({
       <h1
         className={cn(
           "line-clamp-1 text-3xl font-bold tracking-tight",
-          size === "default" && "md:text-4xl"
+          size === "default" && "md:text-4xl",
         )}
       >
         {title}
@@ -27,7 +27,7 @@ export function Header({
         <p
           className={cn(
             "line-clamp-2 text-muted-foreground",
-            size === "default" && "text-lg"
+            size === "default" && "text-lg",
           )}
         >
           {description}
