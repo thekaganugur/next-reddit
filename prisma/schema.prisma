@@ -39,14 +39,19 @@ model Session {
 }
 
 model User {
-  id            String      @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?     @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  username      String?       @unique @default(cuid())
   Subreddit     Subreddit[]
+  Post          Post[]
+  PostVote      PostVote[]
+  CommentVote   CommentVote[]
+  Comment       Comment[]
 }
 
 model VerificationToken {
@@ -62,8 +67,63 @@ model Subreddit {
   name        String   @unique
   description String?
   createdAt   DateTime @default(now())
-  // posts
+  updatedAt   DateTime @updatedAt
 
   creatorId String
   createdBy User   @relation(fields: [creatorId], references: [id])
+  posts     Post[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author      User       @relation(fields: [authorId], references: [id])
+  authorId    String
+  subreddit   Subreddit  @relation(fields: [subredditId], references: [id])
+  subredditId String
+  votes       PostVote[]
+  comments    Comment[]
+}
+
+model PostVote {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  type VoteType
+
+  @@id([userId, postId])
+}
+
+enum VoteType {
+  UP
+  DOWN
+}
+
+model CommentVote {
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+
+  type VoteType
+
+  @@id([userId, commentId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+
+  CommentVote CommentVote[]
 }
