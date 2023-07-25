@@ -1,8 +1,8 @@
 "use client"
 
+import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "next-themes"
 import React from "react"
-import { Toaster } from "sonner"
 
 type Props = {
   children: React.ReactNode

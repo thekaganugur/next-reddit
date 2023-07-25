@@ -10,12 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { toast } from "@/components/ui/use-toast"
 import { useLoading } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
 import { z } from "zod"
 
 const schema = z.object({
@@ -38,7 +38,10 @@ export default function SignInForm() {
         keepGoing: true,
       })
     } catch {
-      toast.error("Something went wrong, please try again later.")
+      toast({
+        description: "Something went wrong, please try again later.",
+        variant: "destructive",
+      })
     }
   }
 
