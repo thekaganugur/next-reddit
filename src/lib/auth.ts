@@ -10,13 +10,12 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: env.NEXTAUTH_SECRET,
   session: { strategy: "jwt" },
-
+  debug: true,
   pages: {
     signIn: "/sign-in",
     signOut: "/sign-out",
     verifyRequest: "/verify-request",
   },
-
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_ID,
@@ -40,7 +39,31 @@ export const authOptions: NextAuthOptions = {
       from: env.EMAIL_FROM,
     }),
   ],
-  debug: true,
+  callbacks: {
+    jwt: async ({ token }) => {
+      const dbUser = await prisma.user.findFirst({
+        where: {
+          email: token.email,
+        },
+      })
+
+      return dbUser
+        ? {
+            ...token,
+            id: dbUser.id,
+            username: dbUser.username,
+          }
+        : token
+    },
+
+    async session({ token, session }) {
+      if (token) {
+        session.user.id = token.id
+        session.user.username = token.username
+      }
+      return session
+    },
+  },
 }
 
 export const getAuthSession = () => getServerSession(authOptions)
