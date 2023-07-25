@@ -1,6 +1,7 @@
 "use client"
 
 import { Toaster } from "@/components/ui/toaster"
+import { SessionProvider } from "next-auth/react"
 import { ThemeProvider } from "next-themes"
 import React from "react"
 
@@ -11,7 +12,7 @@ type Props = {
 export function Providers({ children }: Props) {
   return (
     <ThemeProvider attribute="class">
-      {children}
+      <SessionProvider>{children}</SessionProvider>
       <Toaster />
     </ThemeProvider>
   )
