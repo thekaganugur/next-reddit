@@ -1,7 +1,6 @@
 import { Header } from "@/components/header"
 import PaginationButton from "@/components/pagination-button"
 import { Shell } from "@/components/shell"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -10,18 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { getAuthSession } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { formatTimeToNow } from "@/lib/utils"
-import { Plus } from "lucide-react"
 import Link from "next/link"
 import { z } from "zod"
-import { CreateSubredditForm } from "./forms"
+import { CreateSubredditPopover } from "./create-subreddit-popover"
 
 const ParamsScheme = z.object({
   page: z.string().default("1").pipe(z.coerce.number()),
@@ -34,7 +26,6 @@ type Props = {
 
 export default async function SubRedditsPage({ searchParams }: Props) {
   const { page, per_page } = ParamsScheme.parse(searchParams)
-  const session = await getAuthSession()
   const [subreddits, count] = await prisma.$transaction([
     prisma.subreddit.findMany({
       skip: (page - 1) * per_page,
@@ -49,20 +40,9 @@ export default async function SubRedditsPage({ searchParams }: Props) {
     <Shell>
       <div className="flex justify-between">
         <Header title="Communities" description="Discover the communities!" />
-        {session?.user ? (
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button size="sm" variant="secondary">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="end">
-              <CreateSubredditForm />
-            </PopoverContent>
-          </Popover>
-        ) : null}
+        <CreateSubredditPopover />
       </div>
-      {subreddits.map(({ name, title, description, id, posts, createdAt }) => (
+      {subreddits.map(({ name, title, description, id, createdAt }) => (
         <Card key={id}>
           <CardHeader>
             <Link href={`/r/${name}`}>

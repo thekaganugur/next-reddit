@@ -22,7 +22,11 @@ import { createSubredditSchema } from "./schemas"
 
 type Inputs = z.infer<typeof createSubredditSchema>
 
-export function CreateSubredditForm() {
+type Props = {
+  onSuccesful?: () => void
+}
+
+export function CreateSubredditForm({ onSuccesful }: Props) {
   const { loadingHandler, loading } = useLoading()
   const form = useForm<Inputs>({
     resolver: zodResolver(createSubredditSchema),
@@ -31,6 +35,7 @@ export function CreateSubredditForm() {
   async function onSubmit(values: Inputs) {
     try {
       await loadingHandler(createSubreddit(values))
+      onSuccesful?.()
       toast({
         description: "Subreddit created!",
       })
