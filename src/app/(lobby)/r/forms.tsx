@@ -1,6 +1,5 @@
 "use client"
 
-import { myAction } from "@/app/actions"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -17,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { myAction } from "./actions"
 
 const schema = z.object({
   name: z.string(),

@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { getAuthSession } from "@/lib/auth"
 import { Metadata } from "next"
 import { redirect } from "next/navigation"
-import SignInForm from "./form"
+import SignInForm from "./forms"
 import OauthButtons from "./oauth-buttons"
 
 export const metadata = {

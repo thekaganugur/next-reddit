@@ -18,7 +18,7 @@ import { prisma } from "@/lib/db"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 import { z } from "zod"
-import { CreateSubredditForm } from "./form"
+import { CreateSubredditForm } from "./forms"
 
 const ParamsScheme = z.object({
   page: z.string().default("1").pipe(z.coerce.number()),
