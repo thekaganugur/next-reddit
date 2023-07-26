@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 import { useLoading } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -29,7 +30,7 @@ export function CreateSubredditForm() {
 
   async function onSubmit(values: Inputs) {
     try {
-      await loadingHandler(createSubreddit({ name: values.name }))
+      await loadingHandler(createSubreddit(values))
       toast({
         description: "Subreddit created!",
       })
@@ -56,6 +57,36 @@ export function CreateSubredditForm() {
                 <FormLabel>Subreddit name</FormLabel>
                 <FormControl>
                   <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Subreddit title</FormLabel>
+                <FormControl>
+                  <Textarea {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Subreddit description</FormLabel>
+                <FormControl>
+                  <Textarea {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

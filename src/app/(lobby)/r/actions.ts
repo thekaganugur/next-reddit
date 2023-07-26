@@ -10,10 +10,10 @@ export async function createSubreddit(
   input: z.infer<typeof createSubredditSchema>,
 ) {
   try {
-    const { name } = createSubredditSchema.parse(input)
+    const { name, title, description } = createSubredditSchema.parse(input)
     const session = await getAuthSession()
     await prisma.subreddit.create({
-      data: { name, creatorId: session?.user.id },
+      data: { name, title, description, creatorId: session?.user.id },
     })
     revalidatePath("/r")
   } catch {

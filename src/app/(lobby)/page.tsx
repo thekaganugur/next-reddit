@@ -69,11 +69,13 @@ async function HighligtedSubReddits() {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {subreddits.map(({ name, description, id }) => (
+      {subreddits.map(({ name, title, description, id }) => (
         <Card key={id}>
           <CardHeader>
             <Link href={`/r/${name}`}>
-              <CardTitle>r/{name}</CardTitle>
+              <CardTitle>
+                r/{name}: {title}
+              </CardTitle>
             </Link>
           </CardHeader>
           <CardContent>
