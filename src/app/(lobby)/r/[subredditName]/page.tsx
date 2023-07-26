@@ -37,7 +37,9 @@ export default async function SubRedditPage({ params }: Props) {
     <Shell>
       <Header
         title={subreddit.title}
-        description={`r/${subreddit.name}: ${subreddit.description}`}
+        description={`r/${subreddit.name}${
+          subreddit.description ? `: ${subreddit.description}` : ""
+        }`}
       />
 
       {subreddit.posts.map(

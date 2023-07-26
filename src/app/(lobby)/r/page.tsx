@@ -51,9 +51,11 @@ export default async function SubRedditsPage({ searchParams }: Props) {
               </CardTitle>
             </Link>
           </CardHeader>
-          <CardContent>
-            <p className={"text-sm"}>{description}</p>
-          </CardContent>
+          {description ? (
+            <CardContent>
+              <p className={"text-sm"}>{description}</p>
+            </CardContent>
+          ) : null}
           <CardFooter>
             <CardDescription className="text-xs">
               Created {formatTimeToNow(createdAt)}
