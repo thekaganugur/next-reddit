@@ -1,7 +1,6 @@
 import { Header } from "@/components/header"
 import PaginationButton from "@/components/pagination-button"
 import { Shell } from "@/components/shell"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -9,13 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 import { prisma } from "@/lib/db"
-import { Plus } from "lucide-react"
 import Link from "next/link"
 import { z } from "zod"
 import { CreateSubredditForm } from "./forms"
@@ -32,27 +25,21 @@ type Props = {
 export default async function SubRedditsPage({ searchParams }: Props) {
   const { page, per_page } = ParamsScheme.parse(searchParams)
 
-  const subreddits = await prisma.subreddit.findMany({
-    skip: (page - 1) * per_page,
-    take: per_page,
-    orderBy: { createdAt: "desc" },
-  })
+  const [subreddits, count] = await prisma.$transaction([
+    prisma.subreddit.findMany({
+      skip: (page - 1) * per_page,
+      take: per_page,
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.subreddit.count(),
+  ])
 
   return (
     <Shell>
       <div className="flex justify-between">
         <Header title="Communities" description="Discover the communities!" />
 
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button size="sm" variant="secondary">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent align="end">
-            <CreateSubredditForm />
-          </PopoverContent>
-        </Popover>
+        <CreateSubredditForm />
       </div>
       {subreddits.map(({ name, description, id }) => (
         <Card key={id}>
@@ -67,10 +54,7 @@ export default async function SubRedditsPage({ searchParams }: Props) {
         </Card>
       ))}
 
-      <PaginationButton
-        page={page}
-        pageCount={Math.ceil(subreddits.length / per_page)}
-      />
+      <PaginationButton page={page} pageCount={Math.ceil(count / per_page)} />
     </Shell>
   )
 }
