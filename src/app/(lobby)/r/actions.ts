@@ -12,9 +12,23 @@ export async function createSubreddit(
   try {
     const { name, title, description } = createSubredditSchema.parse(input)
     const session = await getAuthSession()
-    await prisma.subreddit.create({
+
+    if (!session?.user.id) {
+      throw new Error("Unauthorized")
+    }
+
+    const subreddit = await prisma.subreddit.create({
       data: { name, title, description, creatorId: session?.user.id },
     })
+
+    // creator also has to be subscribed
+    await prisma.subscription.create({
+      data: {
+        userId: session.user.id,
+        subredditId: subreddit.id,
+      },
+    })
+
     revalidatePath("/r")
   } catch {
     throw new Error("Could not create subreddit")

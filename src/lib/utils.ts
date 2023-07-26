@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx"
-import { formatDistanceToNowStrict } from "date-fns"
 import React from "react"
 import { twMerge } from "tailwind-merge"
 
@@ -49,10 +48,4 @@ export function createQueryString(
   }
 
   return newSearchParams.toString()
-}
-
-export function formatTimeToNow(date: Date): string {
-  return formatDistanceToNowStrict(date, {
-    addSuffix: true,
-  })
 }

@@ -39,19 +39,20 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  username      String        @unique @default(cuid())
-  Subreddit     Subreddit[]
-  Post          Post[]
-  PostVote      PostVote[]
-  CommentVote   CommentVote[]
-  Comment       Comment[]
+  id                String         @id @default(cuid())
+  name              String?
+  email             String?        @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  username          String         @unique @default(cuid())
+  createdSubreddits Subreddit[]
+  Post              Post[]
+  PostVote          PostVote[]
+  CommentVote       CommentVote[]
+  Comment           Comment[]
+  subscriptions     Subscription[]
 }
 
 model VerificationToken {
@@ -70,9 +71,19 @@ model Subreddit {
   updatedAt   DateTime @updatedAt
   title       String
 
-  creatorId String
-  creator   User?  @relation(fields: [creatorId], references: [id])
-  posts     Post[]
+  creatorId   String
+  creator     User?          @relation(fields: [creatorId], references: [id])
+  posts       Post[]
+  subscribers Subscription[]
+}
+
+model Subscription {
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+  subredditId String
+
+  @@id([userId, subredditId])
 }
 
 model Post {

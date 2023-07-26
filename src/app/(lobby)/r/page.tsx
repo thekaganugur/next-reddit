@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { prisma } from "@/lib/db"
-import { formatTimeToNow } from "@/lib/utils"
+import { formatDistanceToNow } from "date-fns"
 import Link from "next/link"
 import { z } from "zod"
 import { CreateSubredditPopover } from "./create-subreddit-popover"
@@ -31,7 +31,6 @@ export default async function SubRedditsPage({ searchParams }: Props) {
       skip: (page - 1) * per_page,
       take: per_page,
       orderBy: { createdAt: "desc" },
-      include: { creator: true, posts: true },
     }),
     prisma.subreddit.count(),
   ])
@@ -58,7 +57,7 @@ export default async function SubRedditsPage({ searchParams }: Props) {
           ) : null}
           <CardFooter>
             <CardDescription className="text-xs">
-              Created {formatTimeToNow(createdAt)}
+              A community for {formatDistanceToNow(createdAt)}
             </CardDescription>
           </CardFooter>
         </Card>
