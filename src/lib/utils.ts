@@ -23,7 +23,9 @@ export function useLoading() {
         if (!config?.keepGoing) setIsLoading(false)
         return result
       } catch (e: unknown) {
+        setIsLoading(false)
         setError(e)
+        return promise
       }
     },
     [],

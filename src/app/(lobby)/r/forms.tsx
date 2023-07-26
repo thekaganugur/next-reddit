@@ -16,26 +16,20 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { myAction } from "./actions"
+import { createSubreddit } from "./actions"
+import { createSubredditSchema } from "./schemas"
 
-const schema = z.object({
-  name: z.string(),
-  // .nonempty({
-  //   message: "",
-  // }),
-})
-
-type Inputs = z.infer<typeof schema>
+type Inputs = z.infer<typeof createSubredditSchema>
 
 export function CreateSubredditForm() {
   const { loadingHandler, loading } = useLoading()
   const form = useForm<Inputs>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(createSubredditSchema),
   })
 
   async function onSubmit(values: Inputs) {
     try {
-      loadingHandler(myAction(values.name))
+      await loadingHandler(createSubreddit({ name: values.name }))
       toast({
         description: "Subreddit created!",
       })

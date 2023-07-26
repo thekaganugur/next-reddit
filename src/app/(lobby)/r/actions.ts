@@ -3,12 +3,20 @@
 import { getAuthSession } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { revalidatePath } from "next/cache"
+import { z } from "zod"
+import { createSubredditSchema } from "./schemas"
 
-// TODO: Use scheme validation instead
-export async function myAction(userName: string) {
-  const session = await getAuthSession()
-  await prisma.subreddit.create({
-    data: { name: userName, creatorId: session?.user.id },
-  })
-  revalidatePath("/r")
+export async function createSubreddit(
+  input: z.infer<typeof createSubredditSchema>,
+) {
+  try {
+    const { name } = createSubredditSchema.parse(input)
+    const session = await getAuthSession()
+    await prisma.subreddit.create({
+      data: { name, creatorId: session?.user.id },
+    })
+    revalidatePath("/r")
+  } catch {
+    throw new Error("Could not create subreddit")
+  }
 }

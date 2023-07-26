@@ -69,20 +69,18 @@ async function HighligtedSubReddits() {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {[...subreddits, ...subreddits, ...subreddits, ...subreddits].map(
-        ({ name, description, id }) => (
-          <Card key={id}>
-            <CardHeader>
-              <Link href={`/r/${name}`}>
-                <CardTitle>r/{name}</CardTitle>
-              </Link>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>{description}</CardDescription>
-            </CardContent>
-          </Card>
-        ),
-      )}
+      {subreddits.map(({ name, description, id }) => (
+        <Card key={id}>
+          <CardHeader>
+            <Link href={`/r/${name}`}>
+              <CardTitle>r/{name}</CardTitle>
+            </Link>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>{description}</CardDescription>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   )
 }
@@ -96,7 +94,7 @@ async function HighligtedPosts() {
 
   return (
     <div className="flex flex-col gap-4">
-      {[...posts, ...posts, ...posts].map(
+      {posts.map(
         ({ id, title, subreddit, content, votes, author, comments }) => (
           <Card key={id}>
             <CardHeader>
