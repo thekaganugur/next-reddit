@@ -10,16 +10,19 @@ import {
 } from "@/components/ui/card"
 import { prisma } from "@/lib/db"
 import Link from "next/link"
+import { notFound } from "next/navigation"
+import { z } from "zod"
+import { CreatePostPopover } from "./create-post-popover"
+import { SubredditParamsScheme } from "./schemas"
 
 type Props = {
-  params: {
-    subredditName: string
-  }
+  params: z.infer<typeof SubredditParamsScheme>
 }
 
 export default async function SubRedditPage({ params }: Props) {
+  const { subredditName } = SubredditParamsScheme.parse(params)
   const subreddit = await prisma.subreddit.findUnique({
-    where: { name: params.subredditName },
+    where: { name: subredditName },
     include: {
       posts: {
         include: {
@@ -31,16 +34,19 @@ export default async function SubRedditPage({ params }: Props) {
     },
   })
 
-  if (!subreddit) return null
+  if (!subreddit) notFound()
 
   return (
     <Shell>
-      <Header
-        title={subreddit.title}
-        description={`r/${subreddit.name}${
-          subreddit.description ? `: ${subreddit.description}` : ""
-        }`}
-      />
+      <div className="flex justify-between">
+        <Header
+          title={subreddit.title}
+          description={`r/${subreddit.name}${
+            subreddit.description ? `: ${subreddit.description}` : ""
+          }`}
+        />
+        <CreatePostPopover />
+      </div>
 
       {subreddit.posts.map(
         ({ id, title, content, votes, author, comments }) => (
