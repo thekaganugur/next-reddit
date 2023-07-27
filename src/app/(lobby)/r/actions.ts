@@ -18,6 +18,9 @@ export async function createSubreddit(
     data: { name, title, description },
   } = zodScheme
 
+  const subredditExists = await prisma.subreddit.findFirst({ where: { name } })
+  if (subredditExists) throw new Error("Subreddit already exists")
+
   const subreddit = await prisma.subreddit.create({
     data: { name, title, description, creatorId: session?.user.id },
   })
