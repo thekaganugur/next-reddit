@@ -10,7 +10,7 @@
 - [x] Techinal setups
 
   - [x] Prisma
-  - [ ] tRPC
+  <!-- - [ ] tRPC -->
   - [x] NextAuth
 
 - [x] User Registration and Authentication:
@@ -22,8 +22,8 @@
 
 - [ ] Post Management:
 
-  - [ ] Allow users to create new posts with titles, content, and optional images/links.
-  - [ ] Implement categories or subreddits for organizing posts.
+  - [] Allow users to create new posts with titles, content, and optional images/links.
+  - [x] Implement categories or subreddits for organizing posts.
   - [ ] Enable users to view, update, and delete their own posts.
   - [ ] Implement upvoting and downvoting functionality for posts.
 
@@ -48,19 +48,6 @@
   - [ ] Implement a search feature to search for posts by keywords or categories.
   - [ ] Provide suggestions or auto-complete functionality during search.
 
-- [ ] Notifications and Messaging:
+- [x] Responsive Design:
 
-  - [ ] Send notifications to users for new replies or comments on their posts.
-  - [ ] Implement a messaging system for user-to-user communication.
-
-- [ ] Responsive Design:
-
-  - [ ] Ensure the application is mobile-friendly and responsive across different devices.
-
-- [ ] Performance and Security:
-
-  - [ ] Optimize the application for performance, considering page load times and data retrieval.
-  - [ ] Implement security measures like input validation, data sanitization, and protection against web vulnerabilities.
-
-- [ ] Rendering Methods:
-  - [ ] Implement client-side rendering (CSR), server-side rendering (SSR), static site generation (SSG), and incremental static regeneration (ISR) as appropriate.
+  - [x] Ensure the application is mobile-friendly and responsive across different devices.
