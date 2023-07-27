@@ -9,28 +9,26 @@ import { createSubredditSchema } from "./schemas"
 export async function createSubreddit(
   input: z.infer<typeof createSubredditSchema>,
 ) {
-  try {
-    const { name, title, description } = createSubredditSchema.parse(input)
-    const session = await getAuthSession()
+  const session = await getAuthSession()
+  if (!session?.user.id) throw new Error("Unauthorized")
 
-    if (!session?.user.id) {
-      throw new Error("Unauthorized")
-    }
+  const zodScheme = createSubredditSchema.safeParse(input)
+  if (!zodScheme.success) throw new Error("Invalid Inputs")
+  const {
+    data: { name, title, description },
+  } = zodScheme
 
-    const subreddit = await prisma.subreddit.create({
-      data: { name, title, description, creatorId: session?.user.id },
-    })
+  const subreddit = await prisma.subreddit.create({
+    data: { name, title, description, creatorId: session?.user.id },
+  })
 
-    // creator also has to be subscribed
-    await prisma.subscription.create({
-      data: {
-        userId: session.user.id,
-        subredditId: subreddit.id,
-      },
-    })
+  // creator also has to be subscribed
+  await prisma.subscription.create({
+    data: {
+      userId: session.user.id,
+      subredditId: subreddit.id,
+    },
+  })
 
-    revalidatePath("/r")
-  } catch {
-    throw new Error("Could not create subreddit")
-  }
+  revalidatePath("/r")
 }

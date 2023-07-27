@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
-import { useLoading } from "@/lib/utils"
+import { toastServerError, useLoading } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -39,11 +39,8 @@ export function CreateSubredditForm({ onSuccesful }: Props) {
       toast({
         description: "Subreddit created!",
       })
-    } catch {
-      toast({
-        description: "Something went wrong, please try again later.",
-        variant: "destructive",
-      })
+    } catch (error) {
+      toastServerError(error)
     }
   }
 
