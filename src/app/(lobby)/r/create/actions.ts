@@ -34,4 +34,5 @@ export async function createSubreddit(
   })
 
   revalidatePath("/r")
+  return subreddit
 }

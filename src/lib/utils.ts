@@ -16,21 +16,21 @@ export async function sleep(time = 3000) {
 export function useLoading() {
   const [loading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState<undefined | unknown>(undefined)
-  const loadingHandler = React.useCallback(
-    async (promise: Promise<unknown>, config?: { keepGoing: boolean }) => {
-      setIsLoading(true)
-      try {
-        const result = await promise
-        if (!config?.keepGoing) setIsLoading(false)
-        return result
-      } catch (e: unknown) {
-        setIsLoading(false)
-        setError(e)
-        return promise
-      }
-    },
-    [],
-  )
+  const loadingHandler = React.useCallback(async function <T extends unknown>(
+    promise: Promise<T>,
+    config?: { keepGoing: boolean },
+  ) {
+    setIsLoading(true)
+    try {
+      const result = await promise
+      if (!config?.keepGoing) setIsLoading(false)
+      return result
+    } catch (e: unknown) {
+      setIsLoading(false)
+      setError(e)
+      return promise
+    }
+  }, [])
   return { loadingHandler, loading, error }
 }
 

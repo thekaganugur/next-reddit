@@ -1,6 +1,7 @@
 import { Header } from "@/components/header"
 import PaginationButton from "@/components/pagination-button"
 import { Shell } from "@/components/shell"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -13,7 +14,6 @@ import { prisma } from "@/lib/db"
 import { formatDistanceToNow } from "date-fns"
 import Link from "next/link"
 import { z } from "zod"
-import { CreateSubredditPopover } from "./create-subreddit-popover"
 
 const ParamsScheme = z.object({
   page: z.string().default("1").pipe(z.coerce.number()),
@@ -37,10 +37,13 @@ export default async function SubRedditsPage({ searchParams }: Props) {
 
   return (
     <Shell>
-      <div className="flex justify-between">
-        <Header title="Communities" description="Discover the communities!" />
-        <CreateSubredditPopover />
+      <Header title="Communities" description="Discover the communities!" />
+      <div>
+        <Link href="r/create" className={buttonVariants({ size: "sm" })}>
+          New Community
+        </Link>
       </div>
+
       {subreddits.map(({ name, title, description, id, createdAt }) => (
         <Card key={id}>
           <CardHeader>

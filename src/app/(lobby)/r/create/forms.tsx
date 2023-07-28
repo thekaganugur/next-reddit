@@ -15,6 +15,7 @@ import { toast } from "@/components/ui/use-toast"
 import { toastServerError, useLoading } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { createSubreddit } from "./actions"
@@ -28,17 +29,15 @@ type Props = {
 
 export function CreateSubredditForm({ onSuccesful }: Props) {
   const { loadingHandler, loading } = useLoading()
-  const form = useForm<Inputs>({
-    resolver: zodResolver(createSubredditSchema),
-  })
+  const router = useRouter()
+  const form = useForm<Inputs>({ resolver: zodResolver(createSubredditSchema) })
 
   async function onSubmit(values: Inputs) {
     try {
-      await loadingHandler(createSubreddit(values))
+      const { name } = await loadingHandler(createSubreddit(values))
       onSuccesful?.()
-      toast({
-        description: "Subreddit created!",
-      })
+      toast({ description: "Subreddit created!" })
+      router.replace(`/r/${name}`)
     } catch (error) {
       toastServerError(error)
     }
