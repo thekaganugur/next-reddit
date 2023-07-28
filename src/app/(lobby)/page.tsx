@@ -103,17 +103,14 @@ async function HighligtedPosts() {
               <Link href={`/r/${subreddit.name}/post/${id}`}>
                 <CardTitle>{title}</CardTitle>
               </Link>
-              <Link href={`/r/${subreddit.name}`}>
-                <CardTitle>r/{subreddit.name}</CardTitle>
-              </Link>
             </CardHeader>
-            <CardContent className="flex flex-col gap-2">
-              <CardDescription>{JSON.stringify(content)}</CardDescription>
-            </CardContent>
+            <CardContent>{content}</CardContent>
             <CardFooter>
-              <div>votes: {votes.length}</div>
-              <div>author {author.email}</div>
-              <div>comments {comments.length}</div>
+              <CardDescription>
+                <span>votes: {votes.length}</span>
+                <span>author {author.email}</span>
+                <span>comments {comments.length}</span>
+              </CardDescription>
             </CardFooter>
           </Card>
         ),

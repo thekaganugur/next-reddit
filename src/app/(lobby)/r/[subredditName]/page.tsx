@@ -60,13 +60,13 @@ export default async function SubRedditPage({ params }: Props) {
                 <CardTitle>{title}</CardTitle>
               </Link>
             </CardHeader>
-            <CardContent className="flex flex-col gap-2">
-              <CardDescription>{JSON.stringify(content)}</CardDescription>
-            </CardContent>
+            <CardContent>{content}</CardContent>
             <CardFooter>
-              <div>votes: {votes.length}</div>
-              <div>author {author.email}</div>
-              <div>comments {comments.length}</div>
+              <CardDescription>
+                <span>votes: {votes.length}</span>
+                <span>author {author.email}</span>
+                <span>comments {comments.length}</span>
+              </CardDescription>
             </CardFooter>
           </Card>
         ),
