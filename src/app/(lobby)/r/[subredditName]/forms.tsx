@@ -15,29 +15,27 @@ import { toast } from "@/components/ui/use-toast"
 import { toastServerError, useLoading } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
-import { useParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { createPost } from "./actions"
-import { SubredditParamsScheme, createPostFormSchema } from "./schemas"
+import { createPostFormSchema } from "./schemas"
 
 type Inputs = z.infer<typeof createPostFormSchema>
 
 type Props = {
   onSuccesful?: () => void
+  subredditId: string
 }
 
-export function CreatePostForm({ onSuccesful }: Props) {
+export function CreatePostForm({ onSuccesful, subredditId }: Props) {
   const { loadingHandler, loading } = useLoading()
   const form = useForm<Inputs>({
     resolver: zodResolver(createPostFormSchema),
   })
-  const params: any = useParams()
-  const { subredditName } = SubredditParamsScheme.parse(params)
 
   async function onSubmit(values: Inputs) {
     try {
-      await loadingHandler(createPost({ ...values, subredditName }))
+      await loadingHandler(createPost({ ...values, subredditId }))
       onSuccesful?.()
       toast({
         description: "Your post has been published.",

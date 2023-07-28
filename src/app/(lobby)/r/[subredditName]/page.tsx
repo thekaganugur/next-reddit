@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { getAuthSession } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -21,9 +22,11 @@ type Props = {
 
 export default async function SubRedditPage({ params }: Props) {
   const { subredditName } = SubredditParamsScheme.parse(params)
+  const session = await getAuthSession()
   const subreddit = await prisma.subreddit.findUnique({
     where: { name: subredditName },
     include: {
+      subscribers: { where: { userId: session?.user.id } },
       posts: {
         include: {
           votes: true,
@@ -33,8 +36,8 @@ export default async function SubRedditPage({ params }: Props) {
       },
     },
   })
-
   if (!subreddit) notFound()
+  const subscribed = Boolean(subreddit?.subscribers[0]?.subredditId)
 
   return (
     <Shell>
@@ -45,7 +48,8 @@ export default async function SubRedditPage({ params }: Props) {
             subreddit.description ? `: ${subreddit.description}` : ""
           }`}
         />
-        <CreatePostPopover />
+        {}
+        {subscribed && <CreatePostPopover subredditId={subreddit.id} />}
       </div>
 
       {subreddit.posts.map(

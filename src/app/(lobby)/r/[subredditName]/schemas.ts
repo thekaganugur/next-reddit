@@ -7,7 +7,7 @@ export const SubredditParamsScheme = z.object({
 export const createPostActionSchema = z.object({
   title: z.string().min(3).max(60),
   content: z.string().min(3).max(320),
-  subredditName: z.string(),
+  subredditId: z.string(),
 })
 
 export const createPostFormSchema = z.object({

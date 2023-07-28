@@ -11,7 +11,11 @@ import { useSession } from "next-auth/react"
 import React from "react"
 import { CreatePostForm } from "./forms"
 
-export function CreatePostPopover() {
+type Props = {
+  subredditId: string
+}
+
+export function CreatePostPopover({ subredditId }: Props) {
   const session = useSession()
   const [open, setOpen] = React.useState(false)
 
@@ -29,6 +33,7 @@ export function CreatePostPopover() {
           onSuccesful={() => {
             setOpen(false)
           }}
+          subredditId={subredditId}
         />
       </PopoverContent>
     </Popover>

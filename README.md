@@ -22,7 +22,7 @@
 
 - [ ] Post Management:
 
-  - [] Allow users to create new posts with titles, content, and optional images/links.
+  - [x] Allow users to create new posts with titles, content, and optional images/links.
   - [x] Implement categories or subreddits for organizing posts.
   - [ ] Enable users to view, update, and delete their own posts.
   - [ ] Implement upvoting and downvoting functionality for posts.
