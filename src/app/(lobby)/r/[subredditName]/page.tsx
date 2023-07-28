@@ -15,6 +15,7 @@ import { notFound } from "next/navigation"
 import { z } from "zod"
 import { CreatePostPopover } from "./create-post-popover"
 import { SubredditParamsScheme } from "./schemas"
+import { SubscribeLeaveButton } from "./subscribe-leave-button"
 
 type Props = {
   params: z.infer<typeof SubredditParamsScheme>
@@ -41,15 +42,15 @@ export default async function SubRedditPage({ params }: Props) {
 
   return (
     <Shell>
-      <div className="flex justify-between">
-        <Header
-          title={subreddit.title}
-          description={`r/${subreddit.name}${
-            subreddit.description ? `: ${subreddit.description}` : ""
-          }`}
-        />
-        {}
+      <Header
+        title={subreddit.title}
+        description={`r/${subreddit.name}${
+          subreddit.description ? `: ${subreddit.description}` : ""
+        }`}
+      />
+      <div className="flex items-center gap-2">
         {subscribed && <CreatePostPopover subredditId={subreddit.id} />}
+        <SubscribeLeaveButton subscribed={subscribed} />
       </div>
 
       {subreddit.posts.map(
