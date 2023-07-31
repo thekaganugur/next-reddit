@@ -12,9 +12,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
-import { toastServerError, useLoading } from "@/lib/utils"
+import { catchError } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
+import { useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { createPost } from "./actions"
@@ -28,21 +29,23 @@ type Props = {
 }
 
 export function CreatePostForm({ onSuccesful, subredditId }: Props) {
-  const { loadingHandler, loading } = useLoading()
   const form = useForm<Inputs>({
     resolver: zodResolver(createPostFormSchema),
   })
+  const [isPending, startTransition] = useTransition()
 
-  async function onSubmit(values: Inputs) {
-    try {
-      await loadingHandler(createPost({ ...values, subredditId }))
-      onSuccesful?.()
-      toast({
-        description: "Your post has been published.",
-      })
-    } catch (error) {
-      toastServerError(error)
-    }
+  function onSubmit(values: Inputs) {
+    startTransition(async () => {
+      try {
+        await createPost({ ...values, subredditId })
+        onSuccesful?.()
+        toast({
+          description: "Your post has been published.",
+        })
+      } catch (error) {
+        catchError(error)
+      }
+    })
   }
 
   return (
@@ -81,8 +84,8 @@ export function CreatePostForm({ onSuccesful, subredditId }: Props) {
             )
           }}
         />
-        <Button disabled={loading}>
-          {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button disabled={isPending}>
+          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Publish!
         </Button>
       </form>

@@ -2,6 +2,7 @@ import { toast } from "@/components/ui/use-toast"
 import { clsx, type ClassValue } from "clsx"
 import React from "react"
 import { twMerge } from "tailwind-merge"
+import { z } from "zod"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -51,11 +52,19 @@ export function createQueryString(
   return newSearchParams.toString()
 }
 
-export function toastServerError(error: unknown) {
-  error instanceof Error
-    ? toast({ description: error.message, variant: "destructive" })
-    : toast({
-        description: "Something went wrong, please try again.",
-        variant: "destructive",
-      })
+export function catchError(error: unknown) {
+  if (error instanceof z.ZodError) {
+    const errors = error.issues.map((issue) => issue.message)
+    return toast({
+      description: errors.join("\n"),
+      variant: "destructive",
+    })
+  } else if (error instanceof Error) {
+    return toast({ description: error.message, variant: "destructive" })
+  } else {
+    return toast({
+      description: "Something went wrong, please try again.",
+      variant: "destructive",
+    })
+  }
 }
