@@ -13,9 +13,7 @@ import { prisma } from "@/lib/db"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { z } from "zod"
-import { CreatePostPopover } from "./create-post-popover"
 import { SubredditParamsScheme } from "./schemas"
-import { SubscribeLeaveButton } from "./subscribe-leave-button"
 
 type Props = {
   params: z.infer<typeof SubredditParamsScheme>
@@ -38,7 +36,9 @@ export default async function SubRedditPage({ params }: Props) {
     },
   })
   if (!subreddit) notFound()
-  const subscribed = Boolean(subreddit?.subscribers[0]?.subredditId)
+  // const subscribed = Boolean(
+  //   subreddit?.subscribers[0]?.userId === session?.user.id,
+  // )
 
   return (
     <Shell>
@@ -48,10 +48,10 @@ export default async function SubRedditPage({ params }: Props) {
           subreddit.description ? `: ${subreddit.description}` : ""
         }`}
       />
-      <div className="flex items-center gap-2">
-        {subscribed && <CreatePostPopover subredditId={subreddit.id} />}
-        <SubscribeLeaveButton subscribed={subscribed} />
-      </div>
+      {/* <div className="flex items-center gap-2"> */}
+      {/* {subscribed && <CreatePostPopover subredditId={subreddit.id} />} */}
+      {/* <SubscribeLeaveButton subscribed={subscribed} /> */}
+      {/* </div> */}
 
       {subreddit.posts.map(
         ({ id, title, content, votes, author, comments }) => (

@@ -42,11 +42,13 @@ export default async function SubRedditsPage({ searchParams }: Props) {
   return (
     <Shell>
       <Header title="Communities" description="Discover the communities!" />
-      <div>
-        <Link href="r/create" className={buttonVariants({ size: "sm" })}>
-          New Community
-        </Link>
-      </div>
+      {session?.user ? (
+        <div>
+          <Link href="r/create" className={buttonVariants({ size: "sm" })}>
+            New Community
+          </Link>
+        </div>
+      ) : null}
 
       {subreddits.map(
         ({ name, title, description, id, createdAt, subscribers }) => (
@@ -58,9 +60,10 @@ export default async function SubRedditsPage({ searchParams }: Props) {
                     r/{name}: {title}
                   </CardTitle>
                 </Link>
-                {Boolean(subscribers[0]?.subredditId) && (
-                  <Badge variant="secondary">Following</Badge>
-                )}
+                {Boolean(
+                  subscribers[0]?.userId === session?.user.id &&
+                    session?.user.id !== undefined,
+                ) && <Badge variant="secondary">Following</Badge>}
               </div>
             </CardHeader>
             {description ? (
